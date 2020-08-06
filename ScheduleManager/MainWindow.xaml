@@ -7,21 +7,22 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <TextBox x:Name="txtDeliveryTime" HorizontalAlignment="Left" Height="23" Margin="99,13,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="49"/>
-        <Label Content="DeliveryTime" HorizontalAlignment="Left" Margin="22,10,0,0" VerticalAlignment="Top" Width="77"/>
-        <Label Content="FromLocation" HorizontalAlignment="Left" Margin="151,10,0,0" VerticalAlignment="Top" Width="84"/>
-        <TextBox x:Name="txtFromLocation" HorizontalAlignment="Left" Height="23" Margin="233,13,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="49"/>
-        <Label Content="ToLocation" HorizontalAlignment="Left" Margin="286,10,0,0" VerticalAlignment="Top" Width="71"/>
-        <TextBox x:Name="txtToLocation" HorizontalAlignment="Left" Height="23" Margin="353,13,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="49"/>
-        <Label Content="Deviation" HorizontalAlignment="Left" Margin="407,10,0,0" VerticalAlignment="Top" Width="66"/>
-        <TextBox x:Name="txtDeviation" HorizontalAlignment="Left" Height="23" Margin="467,13,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="49"/>
+        <TextBox x:Name="txtDeliveryTime" HorizontalAlignment="Left" Height="23" Margin="109,13,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="36"/>
+        <Label Content="DeliveryTime(s)" HorizontalAlignment="Left" Margin="16,10,0,0" VerticalAlignment="Top" Width="92"/>
+        <Label Content="FromLocation" HorizontalAlignment="Left" Margin="157,10,0,0" VerticalAlignment="Top" Width="84"/>
+        <TextBox x:Name="txtFromLocation" HorizontalAlignment="Left" Height="23" Margin="242,13,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="35"/>
+        <Label Content="ToLocation" HorizontalAlignment="Left" Margin="288,10,0,0" VerticalAlignment="Top" Width="71"/>
+        <TextBox x:Name="txtToLocation" HorizontalAlignment="Left" Height="23" Margin="357,13,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="35"/>
+        <Label Content="Deviation(s)" HorizontalAlignment="Left" Margin="404,10,0,0" VerticalAlignment="Top" Width="73"/>
+        <TextBox x:Name="txtDeviation" HorizontalAlignment="Left" Height="23" Margin="478,13,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="41"/>
         <Button x:Name="btnAddTask" Content="Add Task" HorizontalAlignment="Left" Margin="535,10,0,0" VerticalAlignment="Top" Width="120" Height="26" Click="BtnAddTask_Click"/>
-        <TextBox x:Name="txtLogisticsTasks" HorizontalAlignment="Left" Height="85" Margin="18,45,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="637"/>
-        <TextBox x:Name="txtTotalNumTasks" HorizontalAlignment="Left" Height="23" Margin="147,151,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="56"/>
+        <TextBox x:Name="txtStandardTasks" HorizontalAlignment="Left" Height="85" Margin="18,45,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="637"/>
+        <TextBox x:Name="txtTotalNumTasks" HorizontalAlignment="Left" Height="23" Margin="148,151,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="56"/>
         <Label Content="Total Number of Tasks" HorizontalAlignment="Left" Margin="18,148,0,0" VerticalAlignment="Top" Width="127"/>
-        <TextBox x:Name="txtTimeLength" HorizontalAlignment="Left" Height="23" Margin="296,151,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="56"/>
-        <Label Content="Time Length" HorizontalAlignment="Left" Margin="217,148,0,0" VerticalAlignment="Top" Width="80"/>
+        <TextBox x:Name="txtTimeLength" HorizontalAlignment="Left" Height="23" Margin="307,151,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="52"/>
+        <Label Content="Time Length(s)" HorizontalAlignment="Left" Margin="217,148,0,0" VerticalAlignment="Top" Width="90"/>
         <Button x:Name="btnCreateSchedule" Content="Create Schedule" HorizontalAlignment="Left" Margin="535,148,0,0" VerticalAlignment="Top" Width="120" Height="26" Click="BtnCreateSchedule_Click"/>
+        <TextBox x:Name="txtTaskSchedule" HorizontalAlignment="Left" Height="161" Margin="18,185,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="637"/>
 
     </Grid>
 </Window>
