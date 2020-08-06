@@ -5,24 +5,29 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ScheduleManager"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="660.938" Width="800">
     <Grid>
         <TextBox x:Name="txtDeliveryTime" HorizontalAlignment="Left" Height="23" Margin="109,13,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="36"/>
+        <TextBox x:Name="txtFromLocation" HorizontalAlignment="Left" Height="23" Margin="242,13,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="35"/>
+        <TextBox x:Name="txtToLocation" HorizontalAlignment="Left" Height="23" Margin="357,13,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="35"/>
+        <TextBox x:Name="txtDeviation" HorizontalAlignment="Left" Height="23" Margin="478,13,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="41"/>
+
+        <TextBox x:Name="txtStandardTasks" VerticalScrollBarVisibility="Auto" HorizontalAlignment="Left" Height="85" Margin="18,45,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="637"/>
+        <TextBox x:Name="txtTaskSchedule" VerticalScrollBarVisibility="Auto" HorizontalAlignment="Left" Height="435" Margin="18,185,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="637"/>
+
+        <TextBox x:Name="txtTotalNumTasks" HorizontalAlignment="Left" Height="23" Margin="148,151,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="56"/>
+        <TextBox x:Name="txtTimeLength" HorizontalAlignment="Left" Height="23" Margin="307,151,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="52"/>
+
         <Label Content="DeliveryTime(s)" HorizontalAlignment="Left" Margin="16,10,0,0" VerticalAlignment="Top" Width="92"/>
         <Label Content="FromLocation" HorizontalAlignment="Left" Margin="157,10,0,0" VerticalAlignment="Top" Width="84"/>
-        <TextBox x:Name="txtFromLocation" HorizontalAlignment="Left" Height="23" Margin="242,13,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="35"/>
         <Label Content="ToLocation" HorizontalAlignment="Left" Margin="288,10,0,0" VerticalAlignment="Top" Width="71"/>
-        <TextBox x:Name="txtToLocation" HorizontalAlignment="Left" Height="23" Margin="357,13,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="35"/>
         <Label Content="Deviation(s)" HorizontalAlignment="Left" Margin="404,10,0,0" VerticalAlignment="Top" Width="73"/>
-        <TextBox x:Name="txtDeviation" HorizontalAlignment="Left" Height="23" Margin="478,13,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="41"/>
-        <Button x:Name="btnAddTask" Content="Add Task" HorizontalAlignment="Left" Margin="535,10,0,0" VerticalAlignment="Top" Width="120" Height="26" Click="BtnAddTask_Click"/>
-        <TextBox x:Name="txtStandardTasks" HorizontalAlignment="Left" Height="85" Margin="18,45,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="637"/>
-        <TextBox x:Name="txtTotalNumTasks" HorizontalAlignment="Left" Height="23" Margin="148,151,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="56"/>
         <Label Content="Total Number of Tasks" HorizontalAlignment="Left" Margin="18,148,0,0" VerticalAlignment="Top" Width="127"/>
-        <TextBox x:Name="txtTimeLength" HorizontalAlignment="Left" Height="23" Margin="307,151,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="52"/>
         <Label Content="Time Length(s)" HorizontalAlignment="Left" Margin="217,148,0,0" VerticalAlignment="Top" Width="90"/>
-        <Button x:Name="btnCreateSchedule" Content="Create Schedule" HorizontalAlignment="Left" Margin="535,148,0,0" VerticalAlignment="Top" Width="120" Height="26" Click="BtnCreateSchedule_Click"/>
-        <TextBox x:Name="txtTaskSchedule" HorizontalAlignment="Left" Height="161" Margin="18,185,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="637"/>
+
+        <Button x:Name="btnAddTask" Content="Add Task" HorizontalAlignment="Left" Margin="535,10,0,0" VerticalAlignment="Top" Width="120" Height="26" Click="BtnAddTask_Click"/>
+        <Button x:Name="btnCreateSchedule" Content="Generate new schedule" HorizontalAlignment="Left" Margin="494,148,0,0" VerticalAlignment="Top" Width="161" Height="26" Click="BtnCreateSchedule_Click"/>
+        <Button x:Name="btnRefresh" Content="Refresh" HorizontalAlignment="Left" Margin="679,10,0,0" VerticalAlignment="Top" Width="81" Height="26" Click="BtnRefresh_Click"/>
 
     </Grid>
 </Window>

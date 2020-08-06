@@ -12,7 +12,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Accord.Statistics.Distributions.Univariate;
 
 namespace ScheduleManager
 {
@@ -21,28 +20,32 @@ namespace ScheduleManager
     /// </summary>
     public partial class MainWindow : Window
     {
+        //Global variables
+        List<StandardTask> standardTasks;
+        List<TaskSchedule> taskSchedules;
+
+        Controller controller = new Controller();
+        
+
         public MainWindow()
         {
             InitializeComponent();
-        }
+            standardTasks = new List<StandardTask>();
+            taskSchedules = new List<TaskSchedule>();            
 
-        /// <summary>
-        /// Create(Add) Standard Logistics Task
-        /// </summary>
-        class StandardTask
-        {
-            public int TaskID { get; set; }
-            public double DeliveryTime { get; set; }
-            public string FromLocation { get; set; }
-            public string ToLocation { get; set; }
-            public double Deviation { get; set; }
-        }
+            //Temp data for test
+            txtDeliveryTime.Text = "10.5";
+            txtFromLocation.Text = "A";
+            txtToLocation.Text = "B";
+            txtDeviation.Text = "0.5";
 
-        List<StandardTask> standardTasks = new List<StandardTask>();
-        
+            txtTotalNumTasks.Text = "20";
+            txtTimeLength.Text = "500";
+        }        
+
         private void BtnAddTask_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow.StandardTask standardTask = new MainWindow.StandardTask();
+            StandardTask standardTask = new StandardTask();
 
             standardTask.TaskID = standardTasks.Count() + 1;
             standardTask.DeliveryTime = Convert.ToDouble(txtDeliveryTime.Text);
@@ -59,94 +62,43 @@ namespace ScheduleManager
                 "Deviation: " + standardTask.Deviation;
 
             txtStandardTasks.Text = txtStandardTasks.Text + tempResult + "\r\n";
-
-            txtDeliveryTime.Text = string.Empty;
-            txtFromLocation.Text = string.Empty;
-            txtToLocation.Text = string.Empty;
-            txtDeviation.Text = string.Empty;
-
             txtStandardTasks.ScrollToEnd();
         }
-
-        /// <summary>
-        /// Create Logistics Schedule
-        /// </summary>
-        class TaskSchedule
-        {
-            public int TaskID { get; set; }
-            public double PickTime { get; set; }
-            public double ConsTime { get; set; }
-        }
-
-        List<TaskSchedule> taskSchedules = new List<TaskSchedule>();
-
-        public double GetPickTime(double minimum, double maximum)
-        {
-            Random random = new Random();
-            return random.NextDouble() * (maximum - minimum) + minimum;
-        }
-
+        
         private void BtnCreateSchedule_Click(object sender, RoutedEventArgs e)
         {
-            int numofstandtasks = standardTasks.Count();
+            int numofstandardtasks = standardTasks.Count();
             int totalnumoftasks = Convert.ToInt32(txtTotalNumTasks.Text);
             int timelength = Convert.ToInt32(txtTimeLength.Text);
 
-            Random rand = new Random();
+            int[] numofeachtask = controller.CalculateNumberofEachTask(numofstandardtasks, totalnumoftasks);
+            taskSchedules = controller.GenerateSchedules(standardTasks, numofstandardtasks, numofeachtask, timelength);
 
-            double[] portion = new double[numofstandtasks];
-            for (int i = 0; i < numofstandtasks; i++)
-            {
-                portion[i] = rand.NextDouble();
-            }
+            string temp = "OrderNum, TaskID, PickTime, Duration, ConsTime" + "\r\n";
 
-            int[] eachnumofstandtasks = new int[numofstandtasks];
-            int sum = 0;
-            for (int i = 0; i < numofstandtasks; i++)
-            {
-                if (i == numofstandtasks)
-                {
-                    eachnumofstandtasks[i] = totalnumoftasks - sum;
-                }
-                else
-                {
-                    eachnumofstandtasks[i] = (int)Math.Ceiling(totalnumoftasks * (portion[i] / portion.Sum()));
-                }
-
-                sum = sum + eachnumofstandtasks[i];
-            }
-
-            for (int i = 0; i < numofstandtasks; i++)
-            {
-                for (int j = 0; j < eachnumofstandtasks[i]; j++)
-                {
-                    MainWindow.TaskSchedule taskSchedule = new MainWindow.TaskSchedule();
-
-                    taskSchedule.TaskID = standardTasks[i].TaskID;
-                    taskSchedule.PickTime = Math.Round(rand.NextDouble() * timelength * 1000) / 1000;
-                    taskSchedule.ConsTime = Math.Round(NormalDistribution.Random(standardTasks[i].DeliveryTime, standardTasks[i].Deviation) * 1000) / 1000 + taskSchedule.PickTime;
-
-                    while (taskSchedule.ConsTime > timelength)
-                    {
-                        taskSchedule.PickTime = Math.Round(rand.NextDouble() * timelength * 1000) / 1000;
-                        taskSchedule.ConsTime = Math.Round(NormalDistribution.Random(standardTasks[i].DeliveryTime, standardTasks[i].Deviation) * 1000) / 1000 + taskSchedule.PickTime;
-                    }
-
-                    taskSchedules.Add(taskSchedule);
-                }
-            }
+            txtTaskSchedule.Text = temp;
 
             for (int i = 0; i < totalnumoftasks; i++)
             {
-                string tempResult = "Order: # " + (i + 1).ToString() + ", " +
-                    "TaskID: " + taskSchedules[i].TaskID.ToString() + ", " +
-                    "PickTime: " + taskSchedules[i].PickTime.ToString() + ", " +
-                    "ConsTime: " + taskSchedules[i].ConsTime.ToString();
+                string orderlist = (i + 1).ToString() + ", " +
+                    taskSchedules[i].TaskID.ToString() + ", " +
+                    taskSchedules[i].PickTime.ToString() + ", " +
+                    taskSchedules[i].Duration.ToString() + ", " +
+                    taskSchedules[i].ConsTime.ToString();
 
-                txtTaskSchedule.Text = txtTaskSchedule.Text + tempResult + "\r\n";
+                txtTaskSchedule.Text = txtTaskSchedule.Text + orderlist + "\r\n";
                 txtTaskSchedule.ScrollToEnd();
             }
             
+        }
+
+        private void BtnRefresh_Click(object sender, RoutedEventArgs e)
+        {
+            standardTasks = new List<StandardTask>();
+            taskSchedules = new List<TaskSchedule>();
+
+            txtStandardTasks.Clear();
+            txtTaskSchedule.Clear();
         }
     }
 }
