@@ -31,16 +31,7 @@ namespace ScheduleManager
         {
             InitializeComponent();
             standardTasks = new List<StandardTask>();
-            taskSchedules = new List<TaskSchedule>();            
-
-            //Temp data for test
-            txtDeliveryTime.Text = "10.5";
-            txtFromLocation.Text = "A";
-            txtToLocation.Text = "B";
-            txtDeviation.Text = "0.5";
-
-            txtTotalNumTasks.Text = "20";
-            txtTimeLength.Text = "500";
+            taskSchedules = new List<TaskSchedule>();
         }        
 
         private void BtnAddTask_Click(object sender, RoutedEventArgs e)
@@ -63,6 +54,11 @@ namespace ScheduleManager
 
             txtStandardTasks.Text = txtStandardTasks.Text + tempResult + "\r\n";
             txtStandardTasks.ScrollToEnd();
+
+            txtDeliveryTime.Clear();
+            txtFromLocation.Clear();
+            txtToLocation.Clear();
+            txtDeviation.Clear();
         }
         
         private void BtnCreateSchedule_Click(object sender, RoutedEventArgs e)
@@ -99,6 +95,8 @@ namespace ScheduleManager
 
             txtStandardTasks.Clear();
             txtTaskSchedule.Clear();
+            txtTotalNumTasks.Clear();
+            txtTimeLength.Clear();
         }
     }
 }
