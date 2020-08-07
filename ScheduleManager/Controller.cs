@@ -16,13 +16,6 @@ namespace ScheduleManager
             rand = new Random();
         }
 
-        //What for?
-        double GetPickTime(double minimum, double maximum)
-        {
-            Random random = new Random();
-            return random.NextDouble() * (maximum - minimum) + minimum;
-        }
-
         public int[] CalculateNumberofEachTask(int numofstandardtasks, int totalnumoftasks)
         {
 
