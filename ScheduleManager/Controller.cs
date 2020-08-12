@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -72,6 +73,55 @@ namespace ScheduleManager
             }
 
             return returnList;
+        }
+
+        public double[,] CalculateDistance(List<StandardPosition> standardPositions)
+        {
+            double[,] returnArray = new double[standardPositions.Count, standardPositions.Count];
+
+            for (int i = 0; i < standardPositions.Count; i++)
+            {
+                for (int j = 0; j < standardPositions.Count; j++)
+                {
+                    if (i == j)
+                    {
+                        returnArray[i, j] = 0;
+                    }
+                    else
+                    {
+                        double distX = standardPositions[i].PositionX - standardPositions[j].PositionX;
+                        double distY = standardPositions[i].PositionY - standardPositions[j].PositionY;
+                        returnArray[i, j] = Math.Round(Math.Sqrt(distX * distX + distY * distY) * 100) / 100;
+                    }
+                }
+            }
+            return returnArray;
+        }
+
+        public string WriteDistArray(double[,] distanceArray, List<string> positionNameList)
+        {
+            string tempResult = string.Empty;
+
+            for (int i = 0; i < distanceArray.GetLength(0); i++)
+            {
+                tempResult = tempResult + positionNameList[i] + ", ";
+            }
+            tempResult = "PositionName, " + tempResult;
+            tempResult = tempResult.Substring(0, tempResult.Length - 2);
+            tempResult = tempResult + "\r\n";
+
+            for (int i = 0; i < distanceArray.GetLength(0); i++)
+            {
+                tempResult = tempResult + positionNameList[i] + ", ";
+
+                for (int j = 0; j < distanceArray.GetLength(1); j++)
+                {
+                    tempResult = tempResult + distanceArray[i, j].ToString("F2") + ", ";
+                }
+                tempResult = tempResult.Substring(0, tempResult.Length - 2);
+                tempResult = tempResult + "\r\n";
+            }
+            return tempResult;
         }
     }
 }

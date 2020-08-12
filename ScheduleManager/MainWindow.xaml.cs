@@ -47,9 +47,6 @@ namespace ScheduleManager
             standardTask.TaskID = Guid.NewGuid().ToString();
             standardTask.TaskName = "Task" + standardTasks.Count.ToString();
             standardTask.DeliveryTime = Convert.ToDouble(txtDeliveryTime.Text);
-            //standardTask.FromLocation = txtFromLocation.Text;
-            //standardTask.ToLocation = txtToLocation.Text;
-
             standardTask.FromLocation = cmbFromLocation.SelectedItem.ToString();
             standardTask.ToLocation = cmbToLocation.SelectedItem.ToString();
 
@@ -131,6 +128,16 @@ namespace ScheduleManager
 
             txtStandardPositions.Text = txtStandardPositions.Text + tempResult + "\r\n";
             txtStandardPositions.ScrollToEnd();
+        }
+
+        private void BtnCalculateDistMatrix_Click(object sender, RoutedEventArgs e)
+        {
+
+            double[,] distanceArray = controller.CalculateDistance(standardPositions);
+            string distanceMatrix = controller.WriteDistArray(distanceArray, positionNameList);
+            
+            txtDistanceMatrix.Text = distanceMatrix;
+            txtDistanceMatrix.ScrollToEnd();
         }
     }
 }
