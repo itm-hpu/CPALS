@@ -11,7 +11,8 @@ namespace ScheduleManager
     /// </summary>
     class StandardTask
     {
-        public int TaskID { get; set; }
+        public string TaskID { get; set; }
+        public string TaskName { get; set; }
         public double DeliveryTime { get; set; }
         public string FromLocation { get; set; }
         public string ToLocation { get; set; }

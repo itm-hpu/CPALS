@@ -5,12 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ScheduleManager"
         mc:Ignorable="d"
-        Title="MainWindow" Height="660.938" Width="800">
+        Title="MainWindow" Height="660.938" Width="1487.376">
     <Grid>
         <TextBox x:Name="txtDeliveryTime" HorizontalAlignment="Left" Height="23" Margin="109,13,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="36"/>
-        <TextBox x:Name="txtFromLocation" HorizontalAlignment="Left" Height="23" Margin="242,13,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="35"/>
-        <TextBox x:Name="txtToLocation" HorizontalAlignment="Left" Height="23" Margin="357,13,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="35"/>
-        <TextBox x:Name="txtDeviation" HorizontalAlignment="Left" Height="23" Margin="478,13,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="41"/>
+        <TextBox x:Name="txtDeviation" HorizontalAlignment="Left" Height="23" Margin="478,13,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="41" Text="0.0"/>
 
         <TextBox x:Name="txtStandardTasks" VerticalScrollBarVisibility="Auto" HorizontalAlignment="Left" Height="85" Margin="18,45,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="637"/>
         <TextBox x:Name="txtTaskSchedule" VerticalScrollBarVisibility="Auto" HorizontalAlignment="Left" Height="435" Margin="18,185,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="637"/>
@@ -27,7 +25,18 @@
 
         <Button x:Name="btnAddTask" Content="Add Task" HorizontalAlignment="Left" Margin="535,10,0,0" VerticalAlignment="Top" Width="120" Height="26" Click="BtnAddTask_Click"/>
         <Button x:Name="btnCreateSchedule" Content="Generate new schedule" HorizontalAlignment="Left" Margin="494,148,0,0" VerticalAlignment="Top" Width="161" Height="26" Click="BtnCreateSchedule_Click"/>
-        <Button x:Name="btnRefresh" Content="Refresh" HorizontalAlignment="Left" Margin="679,10,0,0" VerticalAlignment="Top" Width="81" Height="26" Click="BtnRefresh_Click"/>
+        <Button x:Name="btnRefresh" Content="Refresh" HorizontalAlignment="Left" Margin="1378,10,0,0" VerticalAlignment="Top" Width="81" Height="26" Click="BtnRefresh_Click"/>
+        <TextBox x:Name="txtPositionName" HorizontalAlignment="Left" Height="23" Margin="802,16,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="35"/>
+        <TextBox x:Name="txtPositionX" HorizontalAlignment="Left" Height="23" Margin="917,16,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="35"/>
+        <Label Content="Name" HorizontalAlignment="Left" Margin="717,13,0,0" VerticalAlignment="Top" Width="84"/>
+        <Label Content="Position X" HorizontalAlignment="Left" Margin="848,13,0,0" VerticalAlignment="Top" Width="71"/>
+        <TextBox x:Name="txtPositionY" HorizontalAlignment="Left" Height="23" Margin="1036,16,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="35"/>
+        <Label Content="Position Y" HorizontalAlignment="Left" Margin="967,13,0,0" VerticalAlignment="Top" Width="71"/>
+        <Button x:Name="btnAddPosition" Content="Add Position" HorizontalAlignment="Left" Margin="1096,16,0,0" VerticalAlignment="Top" Width="120" Height="26" Click="BtnAddPosition_Click"/>
+        <TextBox x:Name="txtStandardPositions" VerticalScrollBarVisibility="Auto" HorizontalAlignment="Left" Height="159" Margin="717,76,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="637"/>
+        <ComboBox x:Name="cmbFromLocation" HorizontalAlignment="Left" VerticalAlignment="Top" Width="40" Margin="241,16,0,0"/>
+        <ComboBox x:Name="cmbToLocation" HorizontalAlignment="Left" VerticalAlignment="Top" Width="40" Margin="364,14,0,0"/>
+        <DataGrid HorizontalAlignment="Left" Height="272" Margin="717,279,0,0" VerticalAlignment="Top" Width="637"/>
 
     </Grid>
 </Window>

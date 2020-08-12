@@ -55,7 +55,7 @@ namespace ScheduleManager
                 {
                     TaskSchedule taskSchedule = new TaskSchedule();
 
-                    taskSchedule.TaskID = standardTasks[i].TaskID;
+                    taskSchedule.TaskName = standardTasks[i].TaskName;
                     taskSchedule.PickTime = Math.Round(rand.NextDouble() * timelength);
                     taskSchedule.ConsTime = Math.Round(NormalDistribution.Random(standardTasks[i].DeliveryTime, standardTasks[i].Deviation)) + taskSchedule.PickTime;                    
 

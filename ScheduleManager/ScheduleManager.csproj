@@ -70,6 +70,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Controller.cs" />
+    <Compile Include="StandardPosition.cs" />
     <Compile Include="StandardTask.cs" />
     <Compile Include="TaskSchedule.cs" />
     <Page Include="MainWindow.xaml">

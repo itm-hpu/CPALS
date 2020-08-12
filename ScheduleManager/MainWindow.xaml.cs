@@ -23,30 +23,41 @@ namespace ScheduleManager
         //Global variables
         List<StandardTask> standardTasks;
         List<TaskSchedule> taskSchedules;
+        List<StandardPosition> standardPositions;
+        List<string> positionNameList;
 
-        Controller controller = new Controller();
-        
+        Controller controller = new Controller();        
 
         public MainWindow()
         {
             InitializeComponent();
             standardTasks = new List<StandardTask>();
             taskSchedules = new List<TaskSchedule>();
+            standardPositions = new List<StandardPosition>();
+            positionNameList = new List<string>();
+
+            cmbFromLocation.ItemsSource = positionNameList;
+            cmbToLocation.ItemsSource = positionNameList;
         }        
 
         private void BtnAddTask_Click(object sender, RoutedEventArgs e)
         {
             StandardTask standardTask = new StandardTask();
 
-            standardTask.TaskID = standardTasks.Count() + 1;
+            standardTask.TaskID = Guid.NewGuid().ToString();
+            standardTask.TaskName = "Task" + standardTasks.Count.ToString();
             standardTask.DeliveryTime = Convert.ToDouble(txtDeliveryTime.Text);
-            standardTask.FromLocation = txtFromLocation.Text;
-            standardTask.ToLocation = txtToLocation.Text;
-            standardTask.Deviation = Convert.ToDouble(txtDeviation.Text);
+            //standardTask.FromLocation = txtFromLocation.Text;
+            //standardTask.ToLocation = txtToLocation.Text;
+
+            standardTask.FromLocation = cmbFromLocation.SelectedItem.ToString();
+            standardTask.ToLocation = cmbToLocation.SelectedItem.ToString();
+
+            standardTask.Deviation = Convert.ToDouble(txtDeviation.Text);//0.0
 
             standardTasks.Add(standardTask);
 
-            string tempResult = "TaskID: " + standardTask.TaskID.ToString() + ", " +
+            string tempResult = "TaskName: " + standardTask.TaskName.ToString() + ", " +
                 "DeliveryTime: " + standardTask.DeliveryTime.ToString() + ", " +
                 "FromLocation: " + standardTask.FromLocation + ", " +
                 "ToLocation: " + standardTask.ToLocation + ", " +
@@ -55,10 +66,11 @@ namespace ScheduleManager
             txtStandardTasks.Text = txtStandardTasks.Text + tempResult + "\r\n";
             txtStandardTasks.ScrollToEnd();
 
+            /*
             txtDeliveryTime.Clear();
             txtFromLocation.Clear();
             txtToLocation.Clear();
-            txtDeviation.Clear();
+            txtDeviation.Clear();*/
         }
         
         private void BtnCreateSchedule_Click(object sender, RoutedEventArgs e)
@@ -77,7 +89,7 @@ namespace ScheduleManager
             for (int i = 0; i < totalnumoftasks; i++)
             {
                 string orderlist = (i + 1).ToString() + ", " +
-                    taskSchedules[i].TaskID.ToString() + ", " +
+                    taskSchedules[i].TaskName.ToString() + ", " +
                     taskSchedules[i].PickTime.ToString() + ", " +
                     taskSchedules[i].Duration.ToString() + ", " +
                     taskSchedules[i].ConsTime.ToString();
@@ -97,6 +109,28 @@ namespace ScheduleManager
             txtTaskSchedule.Clear();
             txtTotalNumTasks.Clear();
             txtTimeLength.Clear();
+            txtStandardPositions.Clear();
+        }
+
+        private void BtnAddPosition_Click(object sender, RoutedEventArgs e)
+        {
+            StandardPosition standardPosition = new StandardPosition();
+
+            standardPosition.PositionID = Guid.NewGuid().ToString();
+            standardPosition.PositionName = txtPositionName.Text;
+            standardPosition.PositionX = Convert.ToDouble(txtPositionX.Text);
+            standardPosition.PositionY = Convert.ToDouble(txtPositionY.Text);
+
+            standardPositions.Add(standardPosition);
+            positionNameList.Add(standardPosition.PositionName);//should change to ID later
+
+            string tempResult = /*"PositionID: " + standardPosition.PositionID.ToString() + ", " +*/
+                "PositionName: " + standardPosition.PositionName.ToString() + ", " +
+                "PositionX: " + standardPosition.PositionX + ", " +
+                "PositionY: " + standardPosition.PositionY;
+
+            txtStandardPositions.Text = txtStandardPositions.Text + tempResult + "\r\n";
+            txtStandardPositions.ScrollToEnd();
         }
     }
 }
