@@ -56,13 +56,13 @@ namespace ScheduleManager
                     TaskSchedule taskSchedule = new TaskSchedule();
 
                     taskSchedule.TaskID = standardTasks[i].TaskID;
-                    taskSchedule.PickTime = Math.Round(rand.NextDouble() * timelength * 1000) / 1000;
-                    taskSchedule.ConsTime = Math.Round(NormalDistribution.Random(standardTasks[i].DeliveryTime, standardTasks[i].Deviation) * 1000) / 1000 + taskSchedule.PickTime;                    
+                    taskSchedule.PickTime = Math.Round(rand.NextDouble() * timelength);
+                    taskSchedule.ConsTime = Math.Round(NormalDistribution.Random(standardTasks[i].DeliveryTime, standardTasks[i].Deviation)) + taskSchedule.PickTime;                    
 
                     while (taskSchedule.ConsTime > timelength)
                     {
-                        taskSchedule.PickTime = Math.Round(rand.NextDouble() * timelength * 1000) / 1000;
-                        taskSchedule.ConsTime = Math.Round(NormalDistribution.Random(standardTasks[i].DeliveryTime, standardTasks[i].Deviation) * 1000) / 1000 + taskSchedule.PickTime;
+                        taskSchedule.PickTime = Math.Round(rand.NextDouble() * timelength);
+                        taskSchedule.ConsTime = Math.Round(NormalDistribution.Random(standardTasks[i].DeliveryTime, standardTasks[i].Deviation)) + taskSchedule.PickTime;
                     }
 
                     taskSchedule.Duration = taskSchedule.ConsTime - taskSchedule.PickTime;
