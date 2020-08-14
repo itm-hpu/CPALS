@@ -17,5 +17,6 @@ namespace ScheduleManager
         public string FromLocation { get; set; }
         public string ToLocation { get; set; }
         public double Deviation { get; set; }
+        public string TaskType { get; set; }
     }
 }

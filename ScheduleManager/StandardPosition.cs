@@ -10,7 +10,7 @@ namespace ScheduleManager
     {
         public string PositionID { get; set; }
         public string PositionName { get; set; }
-        public double PositionX { get; set; }
-        public double PositionY { get; set; }
+        public double CoordinateX { get; set; }
+        public double CoordinateY { get; set; }
     }
 }

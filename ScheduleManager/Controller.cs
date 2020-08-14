@@ -16,49 +16,105 @@ namespace ScheduleManager
         {
             rand = new Random();
         }
-
-        public int[] CalculateNumberofEachTask(int numofstandardtasks, int totalnumoftasks)
+        
+        public List<int> CalculateNumberofEachTask(List<StandardTask> standardtasks, int totalnumoftasks, double probofsupply, int a)
         {
+            List<int> returnValue = new List<int>();
 
-            int[] returnValue = new int[numofstandardtasks];
+            returnValue.Add(1);
+            returnValue.Add(1);
+            returnValue.Add(1);
+            returnValue.Add(1);
+            returnValue.Add(1);
 
-            double[] portion = new double[numofstandardtasks];
-            for (int i = 0; i < numofstandardtasks; i++)
+            returnValue.Add(3);
+            returnValue.Add(3);
+            returnValue.Add(3);
+            returnValue.Add(3);
+            returnValue.Add(4);
+            returnValue.Add(4);
+
+            return returnValue;
+        }
+
+        public List<int> CalculateNumberofEachTask(List<StandardTask> standardtasks, int totalnumoftasks, double probofsupply)
+        {
+            List<int> returnValue = new List<int>();
+
+            int totalnumofsupply = Convert.ToInt32(Math.Ceiling(totalnumoftasks * probofsupply)); // total num of supply task
+            int totalnumofprocess = totalnumoftasks -totalnumofsupply; // total num of process task
+
+            int numofstandardsupply = 0;
+            int numofstandardprocess = 0;
+
+            for (int i = 0; i < standardtasks.Count; i++)
             {
-                portion[i] = rand.NextDouble();
+                if (standardtasks[i].TaskType == "Supply")
+                {
+                    numofstandardsupply = numofstandardsupply + 1;
+                }
+                else if (standardtasks[i].TaskType == "Process")
+                {
+                    numofstandardprocess = numofstandardprocess + 1;
+                }
             }
 
-            int sum = 0;
-            for (int i = 0; i < numofstandardtasks; i++)
-            {
-                if (i == numofstandardtasks)
-                {
-                    returnValue[i] = numofstandardtasks - sum;
-                }
-                else
-                {
-                    returnValue[i] = (int)Math.Ceiling(totalnumoftasks * (portion[i] / portion.Sum()));
-                }
+            int numofsupplytask = Convert.ToInt32(Math.Ceiling(totalnumofsupply * 1 / (Convert.ToDouble(numofstandardsupply))));
+            int numofprocesstask = Convert.ToInt32(Math.Ceiling(totalnumofprocess * 1 / (Convert.ToDouble(numofstandardprocess))));
 
-                sum = sum + returnValue[i];
+            int countoftotalsupply = 0;
+            int countoftotalprocess = 0;
+            int sumoftotalsupply = 0;
+            int sumoftotalprocess = 0;
+            for (int i = 0; i < standardtasks.Count; i++)
+            {
+                if (standardtasks[i].TaskType == "Supply")
+                {
+                    if (countoftotalsupply != numofstandardsupply - 1)
+                    {
+                        returnValue.Add(numofsupplytask);
+                    }
+                    else
+                    {
+                        returnValue.Add(totalnumofsupply - sumoftotalsupply);
+                    }
+                    countoftotalsupply++;
+                    sumoftotalsupply = sumoftotalsupply + numofsupplytask;
+                }
+                else if (standardtasks[i].TaskType == "Process")
+                {
+                    if (countoftotalprocess != numofstandardprocess - 1)
+                    {
+                        returnValue.Add(numofprocesstask);
+                    }
+                    else
+                    {
+                        returnValue.Add(totalnumofprocess - sumoftotalprocess);
+                    }
+                    countoftotalprocess++;
+                    sumoftotalprocess = sumoftotalprocess + numofprocesstask;
+                }
             }
 
             return returnValue;
         }
 
-        public List<TaskSchedule> GenerateSchedules(List<StandardTask> standardTasks, int numofstandardtasks, int[] numofeachtask, int timelength)
+        public List<TaskSchedule> GenerateSchedules(List<StandardTask> standardTasks, List<int> numofeachtask, int timelength)
         {
             List<TaskSchedule> returnList = new List<TaskSchedule>();
 
-            for (int i = 0; i < numofstandardtasks; i++)
+            for (int i = 0; i < standardTasks.Count; i++)
             {
                 for (int j = 0; j < numofeachtask[i]; j++)
                 {
                     TaskSchedule taskSchedule = new TaskSchedule();
 
                     taskSchedule.TaskName = standardTasks[i].TaskName;
+                    taskSchedule.TaskType = standardTasks[i].TaskType;
                     taskSchedule.PickTime = Math.Round(rand.NextDouble() * timelength);
-                    taskSchedule.ConsTime = Math.Round(NormalDistribution.Random(standardTasks[i].DeliveryTime, standardTasks[i].Deviation)) + taskSchedule.PickTime;                    
+                    taskSchedule.ConsTime = Math.Round(NormalDistribution.Random(standardTasks[i].DeliveryTime, standardTasks[i].Deviation)) + taskSchedule.PickTime;
+                    taskSchedule.FromLocation = standardTasks[i].FromLocation;
+                    taskSchedule.ToLocation = standardTasks[i].ToLocation;
 
                     while (taskSchedule.ConsTime > timelength)
                     {
@@ -89,8 +145,8 @@ namespace ScheduleManager
                     }
                     else
                     {
-                        double distX = standardPositions[i].PositionX - standardPositions[j].PositionX;
-                        double distY = standardPositions[i].PositionY - standardPositions[j].PositionY;
+                        double distX = standardPositions[i].CoordinateX - standardPositions[j].CoordinateX;
+                        double distY = standardPositions[i].CoordinateY - standardPositions[j].CoordinateY;
                         returnArray[i, j] = Math.Round(Math.Sqrt(distX * distX + distY * distY) * 100) / 100;
                     }
                 }
