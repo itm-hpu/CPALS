@@ -345,6 +345,9 @@ namespace ScheduleManager
             */
         }
 
+        // The necessary task for upgrade
+        // 1. how to judge that "txtProbOfSupply.Text" is int or double type
+        // 2. how to set ratio to generate num of each task
         private void BtnCreateSchedule_Click(object sender, RoutedEventArgs e)
         {
             int numofstandardtasks = standardTasks.Count();
@@ -352,7 +355,7 @@ namespace ScheduleManager
             int timelength = Convert.ToInt32(txtTimeLength.Text);
             double probofsupply = Convert.ToDouble(txtProbOfSupply.Text);
 
-            List<int> numofeachtask = controller.CalculateNumberofEachTask(standardTasks, totalnumoftasks, probofsupply, 0); //overload
+            List<int> numofeachtask = controller.CalculateNumberofEachTask(standardTasks, totalnumoftasks, probofsupply, 0); //overload 
             taskSchedules = controller.GenerateSchedules(standardTasks, numofeachtask, timelength);
 
             string temp = "OrderNum, TaskID, TaskType, PickTime, Duration, ConsTime, FromLocation, ToLocation" + "\r\n";
