@@ -13,6 +13,10 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+using System.IO;
+
+
+
 namespace ScheduleManager
 {
     /// <summary>
@@ -385,6 +389,10 @@ namespace ScheduleManager
             
             txtDistanceMatrix.Text = distanceMatrix;
             txtDistanceMatrix.ScrollToEnd();
+        }
+
+        private void BtnReadCSV_Click(object sender, RoutedEventArgs e)
+        {
         }
     }
 }

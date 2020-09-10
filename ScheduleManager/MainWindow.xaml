@@ -5,43 +5,59 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ScheduleManager"
         mc:Ignorable="d"
-        Title="MainWindow" Height="660.938" Width="1352.519">
+        Title="MainWindow" Height="910.938" Width="1974.519">
     <Grid>
-        <TextBox x:Name="txtDeliveryTime" HorizontalAlignment="Left" Height="23" Margin="106,13,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="39"/>
-        <TextBox x:Name="txtDeviation" HorizontalAlignment="Left" Height="23" Margin="219,13,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="29" Text="0.0" RenderTransformOrigin="-1.963,0.781"/>
+        <TabControl HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" >
+            <TabItem Header="Scheduler">
+                <Grid >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="53*"/>
+                        <ColumnDefinition Width="864*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBox x:Name="txtDeliveryTime" HorizontalAlignment="Left" Height="23" Margin="106,13,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="39" Grid.ColumnSpan="2"/>
+                    <TextBox x:Name="txtDeviation" HorizontalAlignment="Left" Height="23" Margin="106,13,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="29" Text="0.0" RenderTransformOrigin="-1.963,0.781" Grid.Column="1"/>
 
-        <TextBox x:Name="txtStandardTasks" VerticalScrollBarVisibility="Auto" HorizontalAlignment="Left" Height="85" Margin="18,45,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="637"/>
-        <TextBox x:Name="txtTaskSchedule" VerticalScrollBarVisibility="Auto" HorizontalAlignment="Left" Height="435" Margin="18,185,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="637"/>
+                    <TextBox x:Name="txtStandardTasks" VerticalScrollBarVisibility="Auto" HorizontalAlignment="Left" Height="85" Margin="18,45,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="637" Grid.ColumnSpan="2"/>
+                    <TextBox x:Name="txtTaskSchedule" VerticalScrollBarVisibility="Auto" HorizontalAlignment="Left" Height="435" Margin="18,185,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="637" Grid.ColumnSpan="2"/>
 
-        <TextBox x:Name="txtTotalNumTasks" HorizontalAlignment="Left" Height="23" Margin="145,151,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40"/>
-        <TextBox x:Name="txtTimeLength" HorizontalAlignment="Left" Height="23" Margin="277,151,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40"/>
+                    <TextBox x:Name="txtTotalNumTasks" HorizontalAlignment="Left" Height="23" Margin="32,151,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40" Grid.Column="1"/>
+                    <TextBox x:Name="txtTimeLength" HorizontalAlignment="Left" Height="23" Margin="164,151,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40" Grid.Column="1"/>
 
-        <Label Content="DeliveryTime(s)" HorizontalAlignment="Left" Margin="16,10,0,0" VerticalAlignment="Top" Width="92"/>
-        <Label Content="FromLocation" HorizontalAlignment="Left" Margin="253,10,0,0" VerticalAlignment="Top" Width="84"/>
-        <Label Content="ToLocation" HorizontalAlignment="Left" Margin="377,10,0,0" VerticalAlignment="Top" Width="71"/>
-        <Label Content="Deviation(s)" HorizontalAlignment="Left" Margin="147,10,0,0" VerticalAlignment="Top" Width="73"/>
-        <Label Content="Total Number of Tasks" HorizontalAlignment="Left" Margin="16,148,0,0" VerticalAlignment="Top" Width="127"/>
-        <Label Content="Time Length(s)" HorizontalAlignment="Left" Margin="188,148,0,0" VerticalAlignment="Top" Width="90"/>
+                    <Label Content="DeliveryTime(s)" HorizontalAlignment="Left" Margin="16,10,0,0" VerticalAlignment="Top" Width="92"/>
+                    <Label Content="FromLocation" HorizontalAlignment="Left" Margin="140,10,0,0" VerticalAlignment="Top" Width="84" Grid.Column="1"/>
+                    <Label Content="ToLocation" HorizontalAlignment="Left" Margin="264,10,0,0" VerticalAlignment="Top" Width="71" Grid.Column="1"/>
+                    <Label Content="Deviation(s)" HorizontalAlignment="Left" Margin="34,10,0,0" VerticalAlignment="Top" Width="73" Grid.Column="1"/>
+                    <Label Content="Total Number of Tasks" HorizontalAlignment="Left" Margin="16,148,0,0" VerticalAlignment="Top" Width="127" Grid.ColumnSpan="2"/>
+                    <Label Content="Time Length(s)" HorizontalAlignment="Left" Margin="75,148,0,0" VerticalAlignment="Top" Width="90" Grid.Column="1"/>
 
-        <Button x:Name="btnAddTask" Content="Add Task" HorizontalAlignment="Left" Margin="588,10,0,0" VerticalAlignment="Top" Width="67" Height="26" Click="BtnAddTask_Click"/>
-        <Button x:Name="btnCreateSchedule" Content="Generate new schedule" HorizontalAlignment="Left" Margin="494,148,0,0" VerticalAlignment="Top" Width="161" Height="26" Click="BtnCreateSchedule_Click"/>
-        <Button x:Name="btnRefresh" Content="Refresh" HorizontalAlignment="Left" Margin="1223,10,0,0" VerticalAlignment="Top" Width="81" Height="26" Click="BtnRefresh_Click"/>
-        <TextBox x:Name="txtPositionName" HorizontalAlignment="Left" Height="23" Margin="773,13,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="35"/>
-        <TextBox x:Name="txtPositionX" HorizontalAlignment="Left" Height="23" Margin="888,13,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="35"/>
-        <Label Content="Name" HorizontalAlignment="Left" Margin="713,10,0,0" VerticalAlignment="Top" Width="84"/>
-        <Label Content="Position X" HorizontalAlignment="Left" Margin="819,10,0,0" VerticalAlignment="Top" Width="71"/>
-        <TextBox x:Name="txtPositionY" HorizontalAlignment="Left" Height="23" Margin="1007,13,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="35"/>
-        <Label Content="Position Y" HorizontalAlignment="Left" Margin="938,10,0,0" VerticalAlignment="Top" Width="71"/>
-        <Button x:Name="btnAddPosition" Content="Add Position" HorizontalAlignment="Left" Margin="1069,10,0,0" VerticalAlignment="Top" Width="120" Height="26" Click="BtnAddPosition_Click"/>
-        <TextBox x:Name="txtStandardPositions" VerticalScrollBarVisibility="Auto" HorizontalAlignment="Left" Height="159" Margin="713,45,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="478"/>
-        <ComboBox x:Name="cmbFromLocation" HorizontalAlignment="Left" VerticalAlignment="Top" Width="35" Margin="337,13,0,0"/>
-        <ComboBox x:Name="cmbToLocation" HorizontalAlignment="Left" VerticalAlignment="Top" Width="35" Margin="446,13,0,0"/>
-        <Button x:Name="btnCalculateDistMatrix" Content="Calculate Distance Matrix" HorizontalAlignment="Left" Margin="960,213,0,0" VerticalAlignment="Top" Width="231" Height="28" Click="BtnCalculateDistMatrix_Click"/>
-        <TextBox x:Name="txtDistanceMatrix" HorizontalAlignment="Left" Height="367" Margin="713,253,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="476"/>
-        <Label Content="Type" HorizontalAlignment="Left" Margin="486,10,0,0" VerticalAlignment="Top"/>
-        <ComboBox x:Name="cmbTaskType" HorizontalAlignment="Left" Margin="521,13,0,0" VerticalAlignment="Top" Width="56"/>
-        <Label Content="Prob of Supply" HorizontalAlignment="Left" Margin="322,148,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="txtProbOfSupply" HorizontalAlignment="Left" Height="23" Margin="410,151,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="32"/>
+                    <Button x:Name="btnAddTask" Content="Add Task" HorizontalAlignment="Left" Margin="475,10,0,0" VerticalAlignment="Top" Width="67" Height="26" Click="BtnAddTask_Click" Grid.Column="1"/>
+                    <Button x:Name="btnCreateSchedule" Content="Generate new schedule" HorizontalAlignment="Left" Margin="381,148,0,0" VerticalAlignment="Top" Width="161" Height="26" Click="BtnCreateSchedule_Click" Grid.Column="1"/>
+                    <Button x:Name="btnRefresh" Content="Refresh" HorizontalAlignment="Left" Margin="1110,10,0,0" VerticalAlignment="Top" Width="81" Height="26" Click="BtnRefresh_Click" Grid.Column="1"/>
+                    <TextBox x:Name="txtPositionName" HorizontalAlignment="Left" Height="23" Margin="660,13,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="35" Grid.Column="1"/>
+                    <TextBox x:Name="txtPositionX" HorizontalAlignment="Left" Height="23" Margin="775,13,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="35" Grid.Column="1"/>
+                    <Label Content="Name" HorizontalAlignment="Left" Margin="600,10,0,0" VerticalAlignment="Top" Width="84" Grid.Column="1"/>
+                    <Label Content="Position X" HorizontalAlignment="Left" Margin="706,10,0,0" VerticalAlignment="Top" Width="71" Grid.Column="1"/>
+                    <TextBox x:Name="txtPositionY" HorizontalAlignment="Left" Height="23" Margin="894,13,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="35" Grid.Column="1"/>
+                    <Label Content="Position Y" HorizontalAlignment="Left" Margin="825,10,0,0" VerticalAlignment="Top" Width="71" Grid.Column="1"/>
+                    <Button x:Name="btnAddPosition" Content="Add Position" HorizontalAlignment="Left" Margin="956,10,0,0" VerticalAlignment="Top" Width="120" Height="26" Click="BtnAddPosition_Click" Grid.Column="1"/>
+                    <TextBox x:Name="txtStandardPositions" VerticalScrollBarVisibility="Auto" HorizontalAlignment="Left" Height="159" Margin="600,45,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="478" Grid.Column="1"/>
+                    <ComboBox x:Name="cmbFromLocation" HorizontalAlignment="Left" VerticalAlignment="Top" Width="35" Margin="224,13,0,0" Grid.Column="1"/>
+                    <ComboBox x:Name="cmbToLocation" HorizontalAlignment="Left" VerticalAlignment="Top" Width="35" Margin="333,13,0,0" Grid.Column="1"/>
+                    <Button x:Name="btnCalculateDistMatrix" Content="Calculate Distance Matrix" HorizontalAlignment="Left" Margin="847,213,0,0" VerticalAlignment="Top" Width="231" Height="28" Click="BtnCalculateDistMatrix_Click" Grid.Column="1"/>
+                    <TextBox x:Name="txtDistanceMatrix" HorizontalAlignment="Left" Height="367" Margin="600,253,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="476" Grid.Column="1"/>
+                    <Label Content="Type" HorizontalAlignment="Left" Margin="373,10,0,0" VerticalAlignment="Top" Grid.Column="1"/>
+                    <ComboBox x:Name="cmbTaskType" HorizontalAlignment="Left" Margin="408,13,0,0" VerticalAlignment="Top" Width="56" Grid.Column="1"/>
+                    <Label Content="Prob of Supply" HorizontalAlignment="Left" Margin="209,148,0,0" VerticalAlignment="Top" Grid.Column="1"/>
+                    <TextBox x:Name="txtProbOfSupply" HorizontalAlignment="Left" Height="23" Margin="297,151,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="32" Grid.Column="1"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Execution">
+                <Grid >
+                    <Button x:Name="btnReadCSV" Content="Read CSV" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="32,28,0,0" Click="BtnReadCSV_Click"/>
+
+                </Grid>
+            </TabItem>
+        </TabControl>
 
     </Grid>
 </Window>
