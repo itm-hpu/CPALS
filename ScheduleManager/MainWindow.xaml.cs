@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 using System.IO;
+using Microsoft.Win32;
 
 
 
@@ -391,8 +392,258 @@ namespace ScheduleManager
             txtDistanceMatrix.ScrollToEnd();
         }
 
+        List<string> positionList = new List<string>();
+        double[,] distanceMatrix;//unit: cm
+
+        private void BtnReadCSVDistance_Click(object sender, RoutedEventArgs e)
+        {            
+            //Read DistanceMatrix
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            
+            string tempString = "";
+
+            if (openFileDialog.ShowDialog() == true)
+            {
+                string[] lines = File.ReadAllLines(System.IO.Path.ChangeExtension(openFileDialog.FileName, ".csv"));
+
+                string[] station = lines[0].Split(',');
+                //for (int i = 1; i < station.Length; i++) positionList.Add(station[i]);
+                distanceMatrix = new double[station.Length - 1, station.Length - 1];
+
+                tempString = tempString + lines[0] + "\r\n";
+
+                for (int i = 1; i < lines.Length; i++)
+                {
+                    tempString = tempString + lines[i] + "\r\n";
+
+                    string[] data = lines[i].Split(',');
+                    positionList.Add(data[0]);
+                    for (int j = i-1; j < distanceMatrix.GetLength(0); j++)
+                    {
+                        distanceMatrix[i - 1, j] = Convert.ToDouble(data[j+1]);
+                    }
+                }
+            }
+
+            txtDistanceMatrix_.Text = tempString;
+
+
+            MessageBox.Show("Distance matrix is imported");
+
+        }
+
+        List<TaskSchedule> inputTaskList = new List<TaskSchedule>();
+
         private void BtnReadCSV_Click(object sender, RoutedEventArgs e)
         {
+            //Read CSV file
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+
+            string tempString = "";
+
+            if (openFileDialog.ShowDialog() == true)
+            {
+                string[] lines = File.ReadAllLines(System.IO.Path.ChangeExtension(openFileDialog.FileName, ".csv"));
+
+                for (int i = 0; i < lines.Length; i++)
+                {
+                    string[] data = lines[i].Split(',');
+                    TaskSchedule tempTask = new TaskSchedule();
+                    tempTask.ScheduleID = data[0];
+                    tempTask.TaskName = data[1];
+                    tempTask.TaskType= data[2];
+
+                    //unit = second
+                    tempTask.PickTime = ConvertMMSStoSecond(data[3]);
+                    tempTask.Duration = ConvertMMSStoSecond(data[4]);
+                    tempTask.ConsTime = ConvertMMSStoSecond(data[5]);
+
+                    tempTask.FromLocation = data[6];
+                    tempTask.ToLocation = data[7];
+
+                    tempString = tempString + tempTask.ScheduleID + "," +
+                    tempTask.TaskName + "," +
+                    tempTask.TaskType + "," +
+                    tempTask.PickTime + "," +
+                    tempTask.Duration + "," +
+                    tempTask.ConsTime + "," +
+                    tempTask.FromLocation + "," + tempTask.ToLocation + "\r\n";
+
+
+                    inputTaskList.Add(tempTask);                    
+                }
+            }
+
+            txtTaskListInput.Text = tempString;
+
+            MessageBox.Show("Task list is imported");
+        }
+        private void BtnCalculation_Click(object sender, RoutedEventArgs e)
+        {
+            double vehicleSpeed = 140.0; //cm/s
+
+            //Sort by pick time
+            List<TaskSchedule> sortedTaskList = inputTaskList.OrderBy(o => o.PickTime).ToList();
+
+            //Create actual delivery tasks
+            List<TaskSchedule> actualDeliveryList = CreateActualDeliveryTask(sortedTaskList);
+
+            //Calc analytic solution
+            List<double> actualPickTimeList = CalcAcutalPickTime(actualDeliveryList, vehicleSpeed, distanceMatrix, positionList);
+            
+            //Print results
+            string tempString = "";
+            for (int i = 0; i < actualDeliveryList.Count; i++)
+            {
+                double actualTravelTime = FindDistanceBetweenPositions(actualDeliveryList[i].FromLocation, actualDeliveryList[i].ToLocation, distanceMatrix, positionList) / vehicleSpeed;
+
+                /*tempString = tempString + actualDeliveryList[i].ScheduleID + "," +
+                    actualDeliveryList[i].TaskName + "," +
+                    actualDeliveryList[i].TaskType + "," +
+                    ConvertSecondtoMMSS(actualPickTimeList[i]) + "," +
+                    ConvertSecondtoMMSS(actualTravelTime) + "," +
+                    ConvertSecondtoMMSS(actualPickTimeList[i] + actualTravelTime) + "," +
+                    actualDeliveryList[i].FromLocation + "," + actualDeliveryList[i].ToLocation + "\r\n";*/
+
+                tempString = tempString + actualDeliveryList[i].ScheduleID + "," +
+                        actualDeliveryList[i].TaskName + "," +
+                        actualDeliveryList[i].TaskType + "," +
+                        (actualPickTimeList[i]) + "," +
+                        (actualTravelTime) + "," +
+                        (actualPickTimeList[i] + actualTravelTime) + "," +
+                        actualDeliveryList[i].FromLocation + "," + actualDeliveryList[i].ToLocation + "\r\n";
+            }
+
+            txtAnalyticSolution.Text = tempString;
+
+        }
+
+        List<double> CalcAcutalPickTime(List<TaskSchedule> tasks, double speed, double[,] distance, List<string> positions)
+        {
+            List<double> returnList = new List<double>();
+            double currentTime = 0.0;
+
+            for (int i = 0; i < tasks.Count; i++)
+            {
+                if (tasks[i].TaskType != "Virtual")
+                {
+                    if (currentTime <= tasks[i].PickTime)
+                    {
+                        //save actual pick time
+                        currentTime = tasks[i].PickTime;
+                        returnList.Add(currentTime);
+
+                        double tempDistance = FindDistanceBetweenPositions(tasks[i].FromLocation, tasks[i].ToLocation, distance, positions);
+                        double actualTravelTime = tempDistance / speed;//second
+                        currentTime = currentTime + actualTravelTime;
+                    }
+                    else
+                    {
+                        //save actual pick time
+                        returnList.Add(currentTime);
+
+                        double tempDistance = FindDistanceBetweenPositions(tasks[i].FromLocation, tasks[i].ToLocation, distance, positions);
+                        double actualTravelTime = tempDistance / speed;//second
+                        currentTime = currentTime + actualTravelTime;
+                    }
+                }
+                //Virtual type
+                else
+                {
+                    //save actual pick time
+                    returnList.Add(currentTime);
+                    double tempDistance = FindDistanceBetweenPositions(tasks[i].FromLocation, tasks[i].ToLocation, distance, positions);
+                    double actualTravelTime = tempDistance / speed;//second
+
+                    currentTime = currentTime + actualTravelTime;
+                }
+            }
+            
+            return returnList;
+        }
+
+        double FindDistanceBetweenPositions(string fromPosition, string toPosition, double[,] distance, List<string> positions)
+        {
+            double returnValue = 0.0;
+
+            int fromIndex = 0, toIndex = 0;
+
+            for (int i = 0; i < positions.Count; i++)
+            {
+                if (fromPosition == positions[i]) fromIndex = i;
+                if (toPosition == positions[i]) toIndex = i;
+            }
+
+            returnValue = distance[fromIndex, toIndex];
+            if (returnValue == 0.0) returnValue = distance[toIndex, fromIndex];
+
+            return returnValue;
+        }
+
+
+        List<TaskSchedule> CreateActualDeliveryTask(List<TaskSchedule> tasks)
+        {
+            List<TaskSchedule> returnList = new List<TaskSchedule>();
+
+            //Create temp delivery between locations
+            for (int i = 0; i < tasks.Count; i++)
+            {
+                returnList.Add(tasks[i]);
+
+                if (i != tasks.Count - 1)
+                {
+                    if (tasks[i].ToLocation != tasks[i + 1].FromLocation)
+                    {
+
+                        TaskSchedule temp = new TaskSchedule();
+                        temp.ScheduleID =  i.ToString() + "_V";
+                        temp.TaskName = "Virtual";
+                        temp.TaskType = "Virtual";
+
+                        temp.PickTime = 0.0;
+                        temp.Duration = 0.0;
+                        temp.ConsTime = 0.0;
+
+                        temp.FromLocation = tasks[i].ToLocation;
+                        temp.ToLocation = tasks[i + 1].FromLocation;
+
+                        returnList.Add(temp);
+                    }
+                }
+            }
+
+            return returnList;
+        }
+
+
+        double ConvertMMSStoSecond(string time)
+        {
+            double returnValue = 0.0;
+
+            string[] data = time.Split(':');
+            double minute = Convert.ToDouble(data[0]);
+            double second = Convert.ToDouble(data[1]);
+
+            returnValue = minute * 60.0 + second;
+
+            return returnValue;
+        }
+
+        string ConvertSecondtoMMSS(double seconds)
+        {
+            string returnValue = "";
+
+            int minute = Convert.ToInt32(Math.Floor(seconds / 60.0));
+            int second = Convert.ToInt32(seconds - minute * 60.0);
+
+            returnValue = minute.ToString("D2") + ":" + second.ToString("D2");
+
+            return returnValue;
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            ConvertSecondtoMMSS(60.0);
         }
     }
 }

@@ -53,7 +53,12 @@
             </TabItem>
             <TabItem Header="Execution">
                 <Grid >
-                    <Button x:Name="btnReadCSV" Content="Read CSV" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="32,28,0,0" Click="BtnReadCSV_Click"/>
+                    <Button x:Name="btnReadCSV" Content="Read Task" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="32,28,0,0" Click="BtnReadCSV_Click"/>
+                    <TextBox x:Name="txtAnalyticSolution" HorizontalAlignment="Left" VerticalScrollBarVisibility="Visible" Height="631" TextWrapping="Wrap"  VerticalAlignment="Top" Width="509" Margin="367,78,0,0"/>
+                    <Button x:Name="btnReadCSVDistance" Content="Read Distance" HorizontalAlignment="Left" VerticalAlignment="Top" Width="104" Margin="137,28,0,0" Click="BtnReadCSVDistance_Click" />
+                    <Button x:Name="btnCalculation" Content="Calculate" HorizontalAlignment="Left" VerticalAlignment="Top" Width="104" Margin="294,28,0,0" Click="BtnCalculation_Click" />
+                    <TextBox x:Name="txtTaskListInput" HorizontalAlignment="Left" VerticalScrollBarVisibility="Visible" Height="631" TextWrapping="Wrap"  VerticalAlignment="Top" Width="304" Margin="33,78,0,0"/>
+                    <TextBox x:Name="txtDistanceMatrix_" HorizontalAlignment="Left" VerticalScrollBarVisibility="Visible" Height="357" TextWrapping="Wrap"  VerticalAlignment="Top" Width="600" Margin="901,78,0,0"/>
 
                 </Grid>
             </TabItem>
